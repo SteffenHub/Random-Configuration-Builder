@@ -16,9 +16,6 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        // save current time for calculation time
-        Instant start = Instant.now();
-
         // Input constants
         final String cnfFileName = args[2];
         final String iRFileName = args[3];
@@ -45,19 +42,14 @@ public class Main {
         double[] ebr = TxtReaderWriter.getEbr(iRFileName);
 
         switch (procedure) {
-            case "zufallsKonflikteMitNNF" -> new ZufallsKonflikteMitNNF(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName, dtcount, seed_set, seed);
-            case "allesZufaellig" -> new AllesZufaellig(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName, seed_set, seed);
-            case "allesZufaelligMitEbr01Raus" -> new alleZufaelligMitEbrWahlen01(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName, seed_set, seed);
+            case "zufallsKonflikteMitNNF" -> new ZufallsKonflikteMitNNF(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName, dtcount, seed_set, seed, iRFileName);
+            case "allesZufaellig" -> new AllesZufaellig(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName, seed_set, seed, iRFileName);
+            case "allesZufaelligMitEbr01Raus" -> new alleZufaelligMitEbrWahlen01(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName, seed_set, seed, iRFileName);
             case "konsistenzPruefung" -> new KonsistenzPruefung(cnfInt, ebr);
-            case "untenNachOben" -> new untenNachOben(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName,dtcount, seed_set, seed);
-            case "EbrProzentualNaehern" -> new EbrProzentualNaehern(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName, seed_set, seed);
+            case "untenNachOben" -> new untenNachOben(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName,dtcount, seed_set, seed, iRFileName);
+            case "EbrProzentualNaehern" -> new EbrProzentualNaehern(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName, seed_set, seed, iRFileName);
             default -> System.err.println("Es ist nicht klar was der Autobauer tun soll. Waehle zwischen: zufallsKonflikteMitNNF, allesZufaellig, allesZufaelligMitEbr01Raus, konsistenzPruefung");
         }
-
-        // print calculation time
-        Instant end = Instant.now();
-        Duration interval = Duration.between(start, end);
-        System.out.println("Execution time in seconds: " + interval.getSeconds());
     }
 
     /**

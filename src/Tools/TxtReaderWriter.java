@@ -49,13 +49,23 @@ public class TxtReaderWriter {
      * @param modelleBool  das ergebnis des AutoBauers als 2 Dimensionales Bool-Array
      * @param seed
      */
-    public static void writeModelleBool(String nameDerDatei, boolean[][] modelleBool, long seed) {
+    public static void writeModelleBool(String nameDerDatei, boolean[][] modelleBool, long seed, long executionTime, int numberOfVariables, int generatedModels, String cnfFileName, String iRFileName) {
         //StopUhr starten
         Instant start1 = Instant.now();
 
         try (FileWriter fw = new FileWriter("./" + nameDerDatei, StandardCharsets.UTF_8);
             BufferedWriter writer = new BufferedWriter(fw)) {
             writer.append("c Used Seed: ").append(String.valueOf(seed));
+            writer.newLine();
+            writer.append("c Execution time: ").append(String.valueOf(executionTime)).append(" seconds");
+            writer.newLine();
+            writer.append("c Number of variables: ").append(String.valueOf(numberOfVariables));
+            writer.newLine();
+            writer.append("c Generated models: ").append(String.valueOf(generatedModels));
+            writer.newLine();
+            writer.append("c Used CNF file: ").append(String.valueOf(cnfFileName));
+            writer.newLine();
+            writer.append("c Used Installation rates file: ").append(String.valueOf(iRFileName));
             writer.newLine();
 
             for (boolean[] zeile : modelleBool) {

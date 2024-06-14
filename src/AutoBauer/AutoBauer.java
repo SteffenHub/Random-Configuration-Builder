@@ -59,6 +59,8 @@ public abstract class AutoBauer implements IAutoBauer {
 
     protected int modelleLauf;
 
+    private String iRFileName;
+
     /**
      * Konstruktor aller Autobauer
      * Der Konstruktor fuehrt alle weiteren Berechnungen durch und speichert das Ergebnis als Txt-Datei.
@@ -71,7 +73,10 @@ public abstract class AutoBauer implements IAutoBauer {
      * @param seed_set                  Has the seed been set? if not then a random seed will be generated
      * @param seed                      The seed for the random generator. null if no seed set.
      */
-    public AutoBauer(int anzahlZuErzeugendeModelle, ArrayList<int[]> cnfInt, int anzahlVariablen, double[] ebr, String cnfDateiName, boolean seed_set, long seed) {
+    public AutoBauer(int anzahlZuErzeugendeModelle, ArrayList<int[]> cnfInt, int anzahlVariablen, double[] ebr, String cnfDateiName, boolean seed_set, long seed, String iRFileName) {
+        // save current time for calculation time
+        Instant start = Instant.now();
+        this.iRFileName = iRFileName;
         this.cnfDateiName = cnfDateiName;
         this.anzahlVariablen = anzahlVariablen;
         this.cnfInt = cnfInt;
@@ -88,8 +93,13 @@ public abstract class AutoBauer implements IAutoBauer {
         init();
         zusaetzlicheInit();
         run();
+
+        // print calculation time
+        Duration interval = Duration.between(start, Instant.now());
+        long executionTime = interval.getSeconds();
+        System.out.println("Execution time in seconds: " + interval.getSeconds());
         //In textdatei schreiben
-        TxtReaderWriter.writeModelleBool("ausgabe.txt", this.modelleBool, seed);
+        TxtReaderWriter.writeModelleBool("ausgabe.txt", this.modelleBool, seed, executionTime, this.anzahlVariablen, this.anzahlZuErzeugendeModelle, this.cnfDateiName, this.iRFileName);
     }
 
     /**

@@ -34,8 +34,8 @@ public class untenNachOben extends AutoBauer{
      * @param seed_set                  Has the seed been set? if not then a random seed will be generated
      * @param seed                      The seed for the random generator. null if no seed set.
      */
-    public untenNachOben(int anzahlZuErzeugendeModelle, ArrayList<int[]> cnfInt, int anzahlVariablen, double[] ebr, String cnfDateiName,int dtcount, boolean seed_set, long seed) {
-        super(anzahlZuErzeugendeModelle, cnfInt, anzahlVariablen, ebr, cnfDateiName, seed_set, seed);
+    public untenNachOben(int anzahlZuErzeugendeModelle, ArrayList<int[]> cnfInt, int anzahlVariablen, double[] ebr, String cnfDateiName,int dtcount, boolean seed_set, long seed, String iRFileName) {
+        super(anzahlZuErzeugendeModelle, cnfInt, anzahlVariablen, ebr, cnfDateiName, seed_set, seed, iRFileName);
         this.dtcount = dtcount;
     }
 

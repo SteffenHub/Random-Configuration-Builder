@@ -20,8 +20,8 @@ public class EbrProzentualNaehern extends AutoBauer {
      * @param seed_set                  Has the seed been set? if not then a random seed will be generated
      * @param seed                      The seed for the random generator. null if no seed set.
      */
-    public EbrProzentualNaehern(int anzahlZuErzeugendeModelle, ArrayList<int[]> cnfInt, int anzahlVariablen, double[] ebr, String cnfDateiName, boolean seed_set, long seed) {
-        super(anzahlZuErzeugendeModelle, cnfInt, anzahlVariablen, ebr, cnfDateiName, seed_set, seed);
+    public EbrProzentualNaehern(int anzahlZuErzeugendeModelle, ArrayList<int[]> cnfInt, int anzahlVariablen, double[] ebr, String cnfDateiName, boolean seed_set, long seed, String iRFileName) {
+        super(anzahlZuErzeugendeModelle, cnfInt, anzahlVariablen, ebr, cnfDateiName, seed_set, seed, iRFileName);
     }
 
     @Override
