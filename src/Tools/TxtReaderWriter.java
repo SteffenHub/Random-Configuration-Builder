@@ -75,7 +75,7 @@ public class TxtReaderWriter {
             writer.newLine();
 
             for (boolean[] zeile : modelleBool) {
-                String line = Arrays.toString(zeile).replace("true", "1").replace("false", "0").replace("[", "").replace("]", "").replace(" ","");
+                String line = Arrays.toString(zeile).replace("true", "1").replace("false", "0").replace("[", "").replace("]", "").replace(" ","").replace(",","");
                 writer.append(line);
                 writer.newLine();
             }
