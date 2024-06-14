@@ -53,6 +53,12 @@ public class TxtReaderWriter {
         //StopUhr starten
         Instant start1 = Instant.now();
 
+        int lastIndexSlash = iRFileName.lastIndexOf('/');
+        if (lastIndexSlash != -1){
+            nameDerDatei = iRFileName.substring(lastIndexSlash+1);
+        }
+        nameDerDatei = "randomCarBuilder_result_" + generatedModels + "_" + nameDerDatei;
+
         try (FileWriter fw = new FileWriter("./" + nameDerDatei, StandardCharsets.UTF_8);
             BufferedWriter writer = new BufferedWriter(fw)) {
             writer.append("c Used Seed: ").append(String.valueOf(seed));
@@ -65,7 +71,7 @@ public class TxtReaderWriter {
             writer.newLine();
             writer.append("c Used CNF file: ").append(String.valueOf(cnfFileName));
             writer.newLine();
-            writer.append("c Used Installation rates file: ").append(String.valueOf(iRFileName));
+            writer.append("c Used Installation rates file: ").append(iRFileName);
             writer.newLine();
 
             for (boolean[] zeile : modelleBool) {
