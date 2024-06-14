@@ -99,7 +99,7 @@ public abstract class AutoBauer implements IAutoBauer {
         long executionTime = interval.getSeconds();
         System.out.println("Execution time in seconds: " + interval.getSeconds());
         //In textdatei schreiben
-        TxtReaderWriter.writeModelleBool("ausgabe.txt", this.modelleBool, seed, executionTime, this.anzahlVariablen, this.anzahlZuErzeugendeModelle, this.cnfDateiName, this.iRFileName);
+        TxtReaderWriter.writeModelleBool("ausgabe.txt", this.modelleBool, seed, executionTime, this.anzahlVariablen, this.anzahlZuErzeugendeModelle, this.cnfDateiName, this.iRFileName, this.getClass().getSimpleName());
     }
 
     /**

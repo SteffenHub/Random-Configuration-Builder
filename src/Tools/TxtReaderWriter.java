@@ -49,7 +49,7 @@ public class TxtReaderWriter {
      * @param modelleBool  das ergebnis des AutoBauers als 2 Dimensionales Bool-Array
      * @param seed
      */
-    public static void writeModelleBool(String nameDerDatei, boolean[][] modelleBool, long seed, long executionTime, int numberOfVariables, int generatedModels, String cnfFileName, String iRFileName) {
+    public static void writeModelleBool(String nameDerDatei, boolean[][] modelleBool, long seed, long executionTime, int numberOfVariables, int generatedModels, String cnfFileName, String iRFileName, String procedure) {
         //StopUhr starten
         Instant start1 = Instant.now();
 
@@ -72,6 +72,8 @@ public class TxtReaderWriter {
             writer.append("c Used CNF file: ").append(String.valueOf(cnfFileName));
             writer.newLine();
             writer.append("c Used Installation rates file: ").append(iRFileName);
+            writer.newLine();
+            writer.append("c Used procedure: ").append(procedure);
             writer.newLine();
 
             for (boolean[] zeile : modelleBool) {
