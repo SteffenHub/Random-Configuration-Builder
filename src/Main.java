@@ -30,6 +30,14 @@ public class Main {
                 dtcount = Integer.parseInt(args[i+1]);
             }
         }
+        boolean seed_set = false;
+        Long seed = null;
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].equals("-seed")){
+                seed = Long.parseLong(args[i+1]);
+                seed_set = true;
+            }
+        }
 
         // Read the rule set
         ArrayList<int[]> cnfInt = getRuleSet(cnfFileName);
@@ -37,12 +45,12 @@ public class Main {
         double[] ebr = TxtReaderWriter.getEbr(iRFileName);
 
         switch (procedure) {
-            case "zufallsKonflikteMitNNF" -> new ZufallsKonflikteMitNNF(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName,dtcount);
-            case "allesZufaellig" -> new AllesZufaellig(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName);
-            case "allesZufaelligMitEbr01Raus" -> new alleZufaelligMitEbrWahlen01(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName);
+            case "zufallsKonflikteMitNNF" -> new ZufallsKonflikteMitNNF(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName, dtcount, seed_set, seed);
+            case "allesZufaellig" -> new AllesZufaellig(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName, seed_set, seed);
+            case "allesZufaelligMitEbr01Raus" -> new alleZufaelligMitEbrWahlen01(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName, seed_set, seed);
             case "konsistenzPruefung" -> new KonsistenzPruefung(cnfInt, ebr);
-            case "untenNachOben" -> new untenNachOben(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName,dtcount);
-            case "EbrProzentualNaehern" -> new EbrProzentualNaehern(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName);
+            case "untenNachOben" -> new untenNachOben(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName,dtcount, seed_set, seed);
+            case "EbrProzentualNaehern" -> new EbrProzentualNaehern(numberModelsToBuild, cnfInt, numberOfVariables, ebr, cnfFileName, seed_set, seed);
             default -> System.err.println("Es ist nicht klar was der Autobauer tun soll. Waehle zwischen: zufallsKonflikteMitNNF, allesZufaellig, allesZufaelligMitEbr01Raus, konsistenzPruefung");
         }
 
@@ -75,6 +83,7 @@ public class Main {
         if (!foundNumberVars){
             throw new Exception("Can't found a line in cnf file starting with p");
         }
+        cnfStr.removeIf(line -> line.charAt(0) == 'c');
         // cnf to int arrays
         return Operation.stringListZuListAusIntArrays(cnfStr);
     }

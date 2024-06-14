@@ -68,21 +68,28 @@ public abstract class AutoBauer implements IAutoBauer {
      * @param anzahlVariablen           in cnf angegebene anzahl an Variablen
      * @param ebr                       die zuvor eingelesenen Einbauraten
      * @param cnfDateiName              der name der Txt-Datei mit Endung(z.B. 'CNF.txt')
+     * @param seed_set                  Has the seed been set? if not then a random seed will be generated
+     * @param seed                      The seed for the random generator. null if no seed set.
      */
-    public AutoBauer(int anzahlZuErzeugendeModelle, ArrayList<int[]> cnfInt, int anzahlVariablen, double[] ebr, String cnfDateiName) {
+    public AutoBauer(int anzahlZuErzeugendeModelle, ArrayList<int[]> cnfInt, int anzahlVariablen, double[] ebr, String cnfDateiName, boolean seed_set, long seed) {
         this.cnfDateiName = cnfDateiName;
         this.anzahlVariablen = anzahlVariablen;
         this.cnfInt = cnfInt;
         this.ebr = ebr;
         this.stopUhr = Instant.now();
         this.anzahlZuErzeugendeModelle = anzahlZuErzeugendeModelle;
-        this.zufallsGenerator = new Random();
+        if (seed_set) {
+            this.zufallsGenerator = new Random(seed);
+        }else{
+            this.zufallsGenerator = new Random();
+            seed = this.zufallsGenerator.nextLong();
+        }
         this.modelleLauf = 0;
         init();
         zusaetzlicheInit();
         run();
         //In textdatei schreiben
-        TxtReaderWriter.writeModelleBool("ausgabe.txt", this.modelleBool);
+        TxtReaderWriter.writeModelleBool("ausgabe.txt", this.modelleBool, seed);
     }
 
     /**

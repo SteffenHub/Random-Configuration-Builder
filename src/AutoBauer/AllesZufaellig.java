@@ -21,9 +21,11 @@ public class AllesZufaellig extends AutoBauer {
      * @param anzahlVariablen           in cnf angegebene anzahl an Variablen
      * @param ebr                       die zuvor eingelesenen Einbauraten
      * @param cnfDateiName              der name der Txt-Datei mit Endung(z.B. 'CNF.txt')
+     * @param seed_set                  Has the seed been set? if not then a random seed will be generated
+     * @param seed                      The seed for the random generator. null if no seed set.
      */
-    public AllesZufaellig(int anzahlZuErzeugendeModelle, ArrayList<int[]> cnfInt, int anzahlVariablen, double[] ebr, String cnfDateiName) {
-        super(anzahlZuErzeugendeModelle, cnfInt, anzahlVariablen, ebr, cnfDateiName);
+    public AllesZufaellig(int anzahlZuErzeugendeModelle, ArrayList<int[]> cnfInt, int anzahlVariablen, double[] ebr, String cnfDateiName, boolean seed_set, long seed) {
+        super(anzahlZuErzeugendeModelle, cnfInt, anzahlVariablen, ebr, cnfDateiName, seed_set, seed);
     }
 
     /**

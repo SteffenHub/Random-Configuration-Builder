@@ -6,7 +6,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -47,14 +46,18 @@ public class TxtReaderWriter {
      * schreibt das Ergebnis des AutoBauers in eine Txt-Datei
      *
      * @param nameDerDatei Name, wie die Ergebnis Datei heissen soll
-     * @param modelleBool das ergebnis des AutoBauers als 2 Dimensionales Bool-Array
+     * @param modelleBool  das ergebnis des AutoBauers als 2 Dimensionales Bool-Array
+     * @param seed
      */
-    public static void writeModelleBool(String nameDerDatei, boolean[][] modelleBool) {
+    public static void writeModelleBool(String nameDerDatei, boolean[][] modelleBool, long seed) {
         //StopUhr starten
         Instant start1 = Instant.now();
 
         try (FileWriter fw = new FileWriter("./" + nameDerDatei, StandardCharsets.UTF_8);
-             BufferedWriter writer = new BufferedWriter(fw)) {
+            BufferedWriter writer = new BufferedWriter(fw)) {
+            writer.append("c Used Seed: ").append(String.valueOf(seed));
+            writer.newLine();
+
             for (boolean[] zeile : modelleBool) {
                 String line = Arrays.toString(zeile).replace("true", "1").replace("false", "0").replace("[", "").replace("]", "").replace(" ","");
                 writer.append(line);
@@ -101,6 +104,7 @@ public class TxtReaderWriter {
      */
     public static double[] getEbr(String nameDerDatei) {
         ArrayList<String> ebrStr = getTxtFromSamePath(nameDerDatei);
+        ebrStr.removeIf(line -> line.charAt(0) == 'c');
         double[] ebr = new double[ebrStr.size()];
         for (int i = 0; i < ebr.length; i++) {
             ebr[i] = Double.parseDouble(ebrStr.get(i));

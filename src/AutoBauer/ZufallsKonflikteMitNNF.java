@@ -28,9 +28,11 @@ public class ZufallsKonflikteMitNNF extends AutoBauer {
      * @param ebr                       die zuvor eingelesenen Einbauraten
      * @param cnfDateiName              der name der Txt-Datei mit Endung(z.B. 'CNF.txt')
      * @param dtcount                   Fuer den c2d. Wie oft ein Baum erstellt werden soll bevor einer ausgegeben wird
+     * @param seed_set                  Has the seed been set? if not then a random seed will be generated
+     * @param seed                      The seed for the random generator. null if no seed set.
      */
-    public ZufallsKonflikteMitNNF(int anzahlZuErzeugendeModelle, ArrayList<int[]> cnfInt, int anzahlVariablen, double[] ebr, String cnfDateiName, int dtcount) {
-        super(anzahlZuErzeugendeModelle, cnfInt, anzahlVariablen, ebr, cnfDateiName);
+    public ZufallsKonflikteMitNNF(int anzahlZuErzeugendeModelle, ArrayList<int[]> cnfInt, int anzahlVariablen, double[] ebr, String cnfDateiName, int dtcount, boolean seed_set, long seed) {
+        super(anzahlZuErzeugendeModelle, cnfInt, anzahlVariablen, ebr, cnfDateiName, seed_set, seed);
         this.dtcount = dtcount;
     }
 

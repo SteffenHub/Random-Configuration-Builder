@@ -43,20 +43,20 @@ public class Familie {
             if (variable.istWaehlbar()) {
                 waehlbareVariable.add(variable);
             } else {
-                zuVerteildendeEinbauraten += variable.getEinbaurate();
+                zuVerteildendeEinbauraten += variable.getInstallationRate();
             }
         }
         this.waehlbareVariableNummern = waehlbareVariable.toArray(new Variable[0]);
         this.waehlbareVariableNummerEinbauraten = new double[this.waehlbareVariableNummern.length];
         double verteilendeEinbauratenProVar = zuVerteildendeEinbauraten / this.waehlbareVariableNummern.length;
         for (int i = 0; i < this.waehlbareVariableNummerEinbauraten.length; i++) {
-            this.waehlbareVariableNummerEinbauraten[i] = this.waehlbareVariableNummern[i].getEinbaurate() + verteilendeEinbauratenProVar;
+            this.waehlbareVariableNummerEinbauraten[i] = this.waehlbareVariableNummern[i].getInstallationRate() + verteilendeEinbauratenProVar;
         }
 
         // pruefen, ob die Einbauraten insgesamt 1 ergeben
         double wahrscheinlichkeitZsm = 0.0;
         for (Variable variable : variableNummern) {
-            wahrscheinlichkeitZsm += variable.getEinbaurate();
+            wahrscheinlichkeitZsm += variable.getInstallationRate();
         }
         System.out.println(this.famName);
         while ((wahrscheinlichkeitZsm < 0.999 || wahrscheinlichkeitZsm > 1.01) && !this.famName.equals("EIL") && !this.famName.equals("KDT") && !this.famName.equals("SNH")) {
@@ -72,15 +72,15 @@ public class Familie {
     public void verteileEinbauraten() {
         double wahrscheinlichkeitZsm = 0.0;
         for (Variable variable : variableNummern) {
-            wahrscheinlichkeitZsm += variable.getEinbaurate();
+            wahrscheinlichkeitZsm += variable.getInstallationRate();
         }
         wahrscheinlichkeitZsm = 1 - wahrscheinlichkeitZsm;
         int anzahlZusammen = 0;
         for (Variable variable : this.waehlbareVariableNummern) {
-            anzahlZusammen += variable.getHauefigkeitInAuftraegen();
+            anzahlZusammen += variable.getFrequencyInOrders();
         }
         for (int i = 0; i < this.waehlbareVariableNummerEinbauraten.length; i++) {
-            this.waehlbareVariableNummerEinbauraten[i] = this.waehlbareVariableNummerEinbauraten[i] + (((double) this.waehlbareVariableNummern[i].getHauefigkeitInAuftraegen() / anzahlZusammen) * wahrscheinlichkeitZsm);
+            this.waehlbareVariableNummerEinbauraten[i] = this.waehlbareVariableNummerEinbauraten[i] + (((double) this.waehlbareVariableNummern[i].getFrequencyInOrders() / anzahlZusammen) * wahrscheinlichkeitZsm);
             //this.waehlbareVariableNummern[i].setEinbaurate(this.waehlbareVariableNummerEinbauraten[i]);
         }
     }

@@ -4,42 +4,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Variable {
+    // Optimiereung:
+    // bei bedingte ebr suche nach dem ersten durchlauf nur noch die ansehen, in dennen diese Variable gewaehlt ist
+    // Die ganzen suchen dynamisch machen, sodass nicht alles am anfang gesucht werden muss sondern erst wenn man die daten braucht
+    //
+
+    /** The installation rate of this variable */
+    private double installationRate;
+    /** how often does this variable appear in the orders */
+    private final int frequencyInOrders;
+    /** Which number does this variable have in the Sat Solver(number > 0) */
+    private final int variableNumber;
+    /** The installation rate conditional on this variable */
+    private final double[] conditionalInstallationRate;
+    /** Orders with this variable */
+    private final boolean[][] ordersWithVar;
+    /** Is it possible to choose this variable with the cnf */
+    private final boolean isSelectable;
 
     /**
-     * Optimiereung:
-     * bei bedingte ebr suche nach dem ersten durchlauf nur noch die ansehen, in dennen diese Variable gewaehlt ist
-     * Die ganzen suchen dynamisch machen, sodass nicht alles am anfang gesucht werden muss sondern erst wenn man die daten braucht
-     */
-
-    // Die Einbaurate dieser Variable
-    private double einbaurate;
-
-    // wie oft kommt diese Variable in den Auftraegen vor
-    private final int hauefigkeitInAuftraegen;
-    // welche variablen Nummer hat diese Variable im SatSolver(1-Indexiert)
-    private final int variablenNummer;
-    // Die Einbauraten bedingt von dieser Variable
-    private double[] einbauratenBedingt;
-
-    private boolean[][] AuftraegeMitDieserVar;
-
-    private boolean istWaehlbar;
-
-    /**
-     * Konstruktor fuer eine Variable
+     * Constructor for a variable
      *
-     * @param variablenNummer   die variablen Nummer im SatSolver(1-Indexiert)
-     * @param auftraege die historischen Auftraege
-     * @param familien
+     * @param variableNumber Which number does this variable have in the Sat Solver(number > 0)
+     * @param orders All orders
+     * @param families
      */
-    public Variable(int variablenNummer, int[][] anzahlZweiZusammen, boolean[][] auftraege, boolean istWaehlbar, ArrayList<int[]> familien) {
-        this.istWaehlbar = istWaehlbar;
-        this.variablenNummer = variablenNummer;
-        this.AuftraegeMitDieserVar = this.getAuftraegeMitDieserVariable(auftraege);
-        this.hauefigkeitInAuftraegen = this.AuftraegeMitDieserVar.length;
-        this.einbaurate = (double) this.hauefigkeitInAuftraegen / auftraege.length;
+    public Variable(int variableNumber, int[][] anzahlZweiZusammen, boolean[][] orders, boolean isSelectable, ArrayList<int[]> families) {
+        this.isSelectable = isSelectable;
+        this.variableNumber = variableNumber;
+        this.ordersWithVar = this.getAuftraegeMitDieserVariable(orders);
+        this.frequencyInOrders = this.ordersWithVar.length;
+        this.installationRate = (double) this.frequencyInOrders / orders.length;
         // darf erst nach der berechnung von hauefigkeitInAuftraegen aufgerufen werden
-        this.einbauratenBedingt = holeBedingteEinbauraten(anzahlZweiZusammen);
+        this.conditionalInstallationRate = holeBedingteEinbauraten(anzahlZweiZusammen);
     }
 
     private double[] verteileEinbauraten(double[] einbauratenBedingt, ArrayList<int[]> familien, int[][] anzahlZweiZusammen) {
@@ -52,10 +49,10 @@ public class Variable {
                 wZsm = 1 - wZsm;
                 int anzahlZusammen = 0;
                 for (int j = 0; j < familien.get(i).length; j++) {
-                    anzahlZusammen += anzahlZweiZusammen[this.variablenNummer - 1][j];
+                    anzahlZusammen += anzahlZweiZusammen[this.variableNumber - 1][j];
                 }
                 for (int j = 0; j < familien.get(i).length; j++) {
-                    einbauratenBedingt[familien.get(i)[j] - 1] = einbauratenBedingt[familien.get(i)[j] - 1] + (((double) anzahlZweiZusammen[this.variablenNummer - 1][j] / anzahlZusammen) * wZsm);
+                    einbauratenBedingt[familien.get(i)[j] - 1] = einbauratenBedingt[familien.get(i)[j] - 1] + (((double) anzahlZweiZusammen[this.variableNumber - 1][j] / anzahlZusammen) * wZsm);
                 }
             }
         }
@@ -64,15 +61,15 @@ public class Variable {
 
     public double[] holeBedingteEinbauraten(int[][] anzahlZweiZusammen) {
         for (int i = 0; i < anzahlZweiZusammen.length; i++) {
-            if (anzahlZweiZusammen[this.variablenNummer - 1][i] < 0 || anzahlZweiZusammen[i][this.variablenNummer - 1] < 0) {
+            if (anzahlZweiZusammen[this.variableNumber - 1][i] < 0 || anzahlZweiZusammen[i][this.variableNumber - 1] < 0) {
                 int anzahlZsm = this.getAnzahlZsmInAuftraegen(i + 1);
-                anzahlZweiZusammen[this.variablenNummer - 1][i] = anzahlZsm;
-                anzahlZweiZusammen[i][this.variablenNummer - 1] = anzahlZsm;
+                anzahlZweiZusammen[this.variableNumber - 1][i] = anzahlZsm;
+                anzahlZweiZusammen[i][this.variableNumber - 1] = anzahlZsm;
             }
         }
         double[] einbauratenZweiZusammen = new double[anzahlZweiZusammen.length];
         for (int i = 0; i < einbauratenZweiZusammen.length; i++) {
-            einbauratenZweiZusammen[i] = (double) anzahlZweiZusammen[this.variablenNummer - 1][i] / this.hauefigkeitInAuftraegen;
+            einbauratenZweiZusammen[i] = (double) anzahlZweiZusammen[this.variableNumber - 1][i] / this.frequencyInOrders;
         }
         return einbauratenZweiZusammen;
     }
@@ -87,7 +84,7 @@ public class Variable {
     private boolean[][] getAuftraegeMitDieserVariable(boolean[][] auftraege) {
         List<boolean[]> auftraegeMitDieserVar = new ArrayList<>();
         for (boolean[] auftrag : auftraege)
-            if (auftrag[this.variablenNummer - 1])
+            if (auftrag[this.variableNumber - 1])
                 auftraegeMitDieserVar.add(auftrag);
         return auftraegeMitDieserVar.toArray(new boolean[0][0]);
     }
@@ -101,7 +98,7 @@ public class Variable {
     private double[] getBedingteEinbauratenAusAuftraegen(boolean[][] auftraege) {
         double[] bedingteEbr = new double[auftraege[0].length];
         for (int i = 1; i <= auftraege[0].length; i++)
-            bedingteEbr[i - 1] = (double) this.getAnzahlZsmInAuftraegen(i) / this.hauefigkeitInAuftraegen;
+            bedingteEbr[i - 1] = (double) this.getAnzahlZsmInAuftraegen(i) / this.frequencyInOrders;
         return bedingteEbr;
     }
 
@@ -113,8 +110,8 @@ public class Variable {
      */
     private int getAnzahlZsmInAuftraegen(int zweiteVar) {
         int anzahlZsm = 0;
-        for (boolean[] auftrag : this.AuftraegeMitDieserVar)
-            if (auftrag[this.variablenNummer - 1] && auftrag[zweiteVar - 1])
+        for (boolean[] auftrag : this.ordersWithVar)
+            if (auftrag[this.variableNumber - 1] && auftrag[zweiteVar - 1])
                 ++anzahlZsm;
         return anzahlZsm;
     }
@@ -124,8 +121,8 @@ public class Variable {
      *
      * @return Einbaurate dieser Variable
      */
-    public double getEinbaurate() {
-        return this.einbaurate;
+    public double getInstallationRate() {
+        return this.installationRate;
     }
 
     /**
@@ -133,8 +130,8 @@ public class Variable {
      *
      * @return die bedingten Einbauraten
      */
-    public double[] getEinbauratenBedingt() {
-        return this.einbauratenBedingt;
+    public double[] getConditionalInstallationRate() {
+        return this.conditionalInstallationRate;
     }
 
     /**
@@ -142,20 +139,20 @@ public class Variable {
      *
      * @return diese Variablen Nummer
      */
-    public int getVariablenNummer() {
-        return this.variablenNummer;
+    public int getVariableNumber() {
+        return this.variableNumber;
     }
 
     public boolean istWaehlbar() {
-        return this.istWaehlbar;
+        return this.isSelectable;
     }
 
-    public int getHauefigkeitInAuftraegen() {
-        return hauefigkeitInAuftraegen;
+    public int getFrequencyInOrders() {
+        return frequencyInOrders;
     }
 
-    public void setEinbaurate(double einbaurate) {
-        this.einbaurate = einbaurate;
+    public void setInstallationRate(double installationRate) {
+        this.installationRate = installationRate;
     }
 
 }

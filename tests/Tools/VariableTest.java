@@ -49,7 +49,7 @@ class VariableTest {
             Arrays.fill(this.anzahlZweiZusammen[i], -1);
         }
         this.variable = new Variable(this.variablenNummer, this.anzahlZweiZusammen, this.auftraege, this.istWaehlbar, this.familien);
-        this.einbauratenBedingt = this.variable.getEinbauratenBedingt();
+        this.einbauratenBedingt = this.variable.getConditionalInstallationRate();
     }
 
     @Test
@@ -63,6 +63,6 @@ class VariableTest {
         // 0.34 * 3/4 = 0.255 = Var2
         // Var2 -> 0.5 + 0.255 = 0.755           | Neue einbauraten berechnet
         // Var3 -> 0.166666 + 0.085 = 0.251666
-        assertArrayEquals(new double[]{0.0,0.75,0.25,1.0}, this.variable.getEinbauratenBedingt());
+        assertArrayEquals(new double[]{0.0,0.75,0.25,1.0}, this.variable.getConditionalInstallationRate());
     }
 }
