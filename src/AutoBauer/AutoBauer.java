@@ -89,6 +89,7 @@ public abstract class AutoBauer implements IAutoBauer {
             this.zufallsGenerator = new Random();
             seed = this.zufallsGenerator.nextLong();
         }
+        System.out.println(seed + " set as seed");
         this.modelleLauf = 0;
         init();
         zusaetzlicheInit();
