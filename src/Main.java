@@ -3,11 +3,8 @@ import Tools.KonsistenzPruefung;
 import Tools.Operation;
 import Tools.TxtReaderWriter;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
