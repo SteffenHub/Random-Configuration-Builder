@@ -94,13 +94,15 @@ public abstract class AutoBauer implements IAutoBauer {
         init();
         zusaetzlicheInit();
         run();
+        double averageDeviation = getAverageDeviation();
+        System.out.println("The average Deviation is: " + averageDeviation);
 
         // print calculation time
         Duration interval = Duration.between(start, Instant.now());
         long executionTime = interval.getSeconds();
         System.out.println("Execution time in seconds: " + interval.getSeconds());
         //In textdatei schreiben
-        TxtReaderWriter.writeModelleBool("ausgabe.txt", this.modelleBool, seed, executionTime, this.anzahlVariablen, this.anzahlZuErzeugendeModelle, this.cnfDateiName, this.iRFileName, this.getClass().getSimpleName());
+        TxtReaderWriter.writeModelleBool("ausgabe.txt", this.modelleBool, seed, executionTime, this.anzahlVariablen, this.anzahlZuErzeugendeModelle, this.cnfDateiName, this.iRFileName, this.getClass().getSimpleName(), averageDeviation);
     }
 
     /**
@@ -188,4 +190,25 @@ public abstract class AutoBauer implements IAutoBauer {
         zeit = zeit / 100;
         return zeit;
     }
+
+    private double getAverageDeviation(){
+        double[] allDeviations = new double[this.anzahlVariablen];
+        for (int i = 0; i < this.anzahlVariablen; i++) {
+            int usedTimes = 0;
+            for (boolean[] model : this.modelleBool) {
+                if(model[i]){
+                    ++usedTimes;
+                }
+            }
+            double installationRateResult = (double) usedTimes/this.anzahlZuErzeugendeModelle;
+            allDeviations[i] = Math.abs(installationRateResult - this.ebr[i]);
+        }
+        double sumDeviations = 0.0;
+        for (double dev : allDeviations){
+            sumDeviations += dev;
+        }
+        return sumDeviations/this.anzahlVariablen;
+    }
+
+
 }

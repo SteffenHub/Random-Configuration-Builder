@@ -4,25 +4,26 @@ The Random Configuration Builder can be used to generate synthetic sales using a
 
 # Example result
 More information about the input data can be found in the section below [Example input](#example-input).
-> c Used Seed: -3952349368590913869  
+> c Used Seed: 5021021263621961602  
 > c Execution time: 0 seconds  
 > c Number of variables: 6  
 > c Generated models: 5  
 > c Used CNF file: input_data/cnf/Phone_example.cnf  
 > c Used Installation rates file: input_data/installation_rates/freq_result_Phone_example_100Decimal.txt  
 > c Used procedure: allRandom  
+> c Average deviation: 0.11666666666666668  
+> 001101  
+> 100110  
+> 001101  
 > 010101  
 > 001101  
-> 001101  
-> 001101  
-> 010101  
 
 First three sales as tabular:
 
 | Sale number | 64 Gb Storage | 128 Storage | 256 GB Storage | Black color | 8 GB RAM | 16 GB RAM |
 |-------------|---------------|-------------|----------------|-------------|----------|-----------|
-| Sale 1      | 0             | 1           | 0              | 1           | 0        | 1         |
-| Sale 2      | 0             | 0           | 1              | 1           | 0        | 1         |
+| Sale 1      | 0             | 0           | 1              | 1           | 0        | 1         |
+| Sale 2      | 1             | 0           | 0              | 1           | 1        | 0         |
 | Sale 3      | 0             | 0           | 1              | 1           | 0        | 1         |
 | ...         | ...           | ...         | ...            | ...         | ...      | ...       |
 
