@@ -26,7 +26,7 @@ First three sales as tabular:
 | Sale 3      | 0             | 0           | 1              | 1           | 0        | 1         |
 | ...         | ...           | ...         | ...            | ...         | ...      | ...       |
 
-Some more complex data can be found in the input_data and out_data folders.
+Some more complex data can be found in the input_data and output_data folders.
 
 # Example Input
 
@@ -99,7 +99,7 @@ With this two input files we can generate synthetic sales. See [Example Result](
 
 # Run
 To run this Code you need to download the Sat4J SAT-solver and integrate it into your Project.  
-After setting up the solver you have to run the Main file in the src folder with some input arguments. See [Input Arguments](#input-arguments)
+After setting up the solver you have to run the Main file and answer some questions in a Dialog. See [How to use](#how-to-use)
 
 TODO Some procedures need a nnf from the c2d solver
 
