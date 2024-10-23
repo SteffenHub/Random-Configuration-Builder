@@ -19,7 +19,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         // Read the rule set
-        System.out.println("Which CNF file should be used. Pass the path like: input_data/CNF_10Vars_Variance_1000.txt");
+        System.out.println("Which CNF file should be used. Pass the path like: input_data/cnf/Phone_example.cnf");
         String cnfFileName = scanner.nextLine();
         ArrayList<int[]> cnfInt = getRuleSet(cnfFileName);
         for (int[] line : cnfInt){
@@ -27,7 +27,7 @@ public class Main {
         }
 
         // Read the installation rates
-        System.out.println("Which Installation rate file should be used. Pass the path like: input_data/freq_result_CNF_10Vars_Variance_1000_10Dec.txt");
+        System.out.println("Which Installation rate file should be used. Pass the path like: input_data/installation_rates/freq_result_Phone_example_100Decimal.txt");
         String iRFileName = scanner.nextLine();
         double[] iR = TxtReaderWriter.getEbr(iRFileName);
         for (double iRVar : iR){
