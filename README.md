@@ -105,7 +105,7 @@ After setting up the solver you have to run the Main file and answer some questi
 
 
 
-#### [Integrate SAT4J](#download-sat4j-1)
+#### [Integrate SAT4J](#download-sat4j)
 *  In IntelliJ go to File -> Project Structure -> Libraries -> + -> Java and select the org.sat4j-core.jar
 
 #### [Integrate c2d](#download-c2d)
