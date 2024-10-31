@@ -275,7 +275,7 @@ chooseVarOrNot(int var){
 
 
 # NNF Tree
-![NNF tree for Phone example](resources\Phone_example_nnf_tree.svg)  
+![NNF tree for Phone example](resources/Phone_example_nnf_tree.svg)  
 This tree shows the NNF decision tree for the Phone example generated with [c2d-solver](#download-c2d).  
 This tree can be generated with the c2d-solver using this command:
 > c2d -in Phone_example.cnf -visualize
