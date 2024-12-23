@@ -57,7 +57,7 @@ public class TxtReaderWriter {
         if (lastIndexSlash != -1){
             nameDerDatei = iRFileName.substring(lastIndexSlash+1);
         }
-        nameDerDatei = "randomCarBuilder_result_" + generatedModels + "_" + nameDerDatei;
+        nameDerDatei = "randomConfBuilder_result_" + generatedModels + "_" + nameDerDatei;
 
         try (FileWriter fw = new FileWriter("./" + nameDerDatei, StandardCharsets.UTF_8);
             BufferedWriter writer = new BufferedWriter(fw)) {
