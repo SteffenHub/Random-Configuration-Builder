@@ -2,6 +2,10 @@
 
 The Random Configuration Builder can be used to generate synthetic sales using a CNF and installation rates.
 
+# Related Paper
+This code is part of a research paper, available at:  
+[Schmidt, T.; Demke, N.; Marbach, S.; Tichla, F.; Frischen, C.; Mantwill, F. (2025). Synthetische Variantenmodellierung für eine integrierte Produktionsplanung. Zeitschrift für wirtschaftlichen Fabrikbetrieb (ZWF), Vol. 120, No. 3, Walter de Gruyter GmbH, Berlin/Boston, Germany, pp. 128-132.](https://doi.org/10.1515/zwf-2024-0138).
+
 # Example result
 More information about the input data can be found in the section below [Example input](#example-input).
 > c Used Seed: 5021021263621961602  
